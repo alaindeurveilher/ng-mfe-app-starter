@@ -1,0 +1,9 @@
+<app-navbar />
+<div [style]="{display: 'flex', flexDirection: 'column', padding: '1rem'}">
+  <p>I am part of the host layout. All components are loaded in the dotted section below.</p>
+  <div
+    [style]="{padding: '1rem', borderRadius: '0.25rem', borderWidth: '2px', borderColor: 'rgb(14 165 233)', borderStyle: 'dashed'}">
+    <router-outlet />
+  </div>
+  <p>I am part of the host layout.</p>
+</div>
