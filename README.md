@@ -30,18 +30,19 @@ We are going to use the `ng g app` to generate application micro front-ends with
 
 ### Add some components
 
-- `ng g c navbar --project shell`
-- `ng g c home --project shell`
-- `ng g c not-found --project shell`
-
-- `ng g c header --project mfe1`
-- `ng g c feat1 --project mfe1`
-- `ng g c feat2 --project mfe1`
-
-- `ng g c navbar --project mfe2`
-- `ng g c home --project mfe2`
-- `ng g c page1 --project mfe2`
-- `ng g c page2 --project mfe2`
+- Shell:
+  - `ng g c navbar --project shell`
+  - `ng g c home --project shell`
+  - `ng g c not-found --project shell`
+- MFE1:
+  - `ng g c header --project mfe1`
+  - `ng g c feat1 --project mfe1`
+  - `ng g c feat2 --project mfe1`
+- MFE2:
+  - `ng g c navbar --project mfe2`
+  - `ng g c home --project mfe2`
+  - `ng g c page1 --project mfe2`
+  - `ng g c page2 --project mfe2`
 
 ### Add some routing in the shell
 
@@ -238,7 +239,7 @@ export const routes: Routes = [
 ];
 ```
 
-## Add "concurrently"
+## Add concurrently
 
 - Install concurrently: `yarn add concurrently@latest -D`
 - Add the script in package.json: `"start:all": "concurrently \"ng serve mfe1\" \"ng serve mfe2\" \"ng serve shell\"",` 
