@@ -1,9 +1,54 @@
-<p>page2 works!</p>
-<mat-icon>home</mat-icon>
-<mat-icon fontSet="material-icons-outlined">home</mat-icon>
-<mat-icon>looks_one</mat-icon>
-<mat-icon fontSet="material-symbols-outlined">counter_1</mat-icon>
-<mat-icon fontSet="material-symbols-outlined">favorite</mat-icon>
-<mat-icon fontSet="material-symbols-outlined" color="primary">favorite</mat-icon>
-<mat-icon fontSet="material-symbols-outlined" color="accent">favorite</mat-icon>
-<mat-icon fontSet="material-symbols-outlined" color="warn">favorite</mat-icon>
+<div [style]="{padding: '2rem'}">
+  <mat-card [style]="{maxWidth: '24rem'}" class="mat-elevation-z4">
+    <mat-card-header>
+      <mat-card-title>
+        <div [style]="{display: 'flex', gap: '0.5rem', alignItems: 'center'}">
+          <mat-icon fontSet="material-symbols-outlined">counter_2</mat-icon>
+          Page Two
+        </div>
+      </mat-card-title>
+      <mat-card-subtitle>(In MFE2)</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        This component is part of the selected micro front-end app.
+      </p>
+      <form [style]="{display: 'flex', flexDirection: 'column', gap: '1rem'}">
+        <mat-form-field appearance="fill">
+          <mat-label>Fill form field</mat-label>
+          <input matInput placeholder="Placeholder">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Select me</mat-label>
+          <mat-select>
+            <mat-option value="option">Option</mat-option>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox>Check me (or not)</mat-checkbox>
+
+        <div>
+          <label>Other options: </label>
+          <mat-radio-group>
+            <mat-radio-button value="auto">Auto</mat-radio-button>
+            <mat-radio-button value="always">Always</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <button type="submit" mat-raised-button color="accent">
+          <mat-icon aria-hidden="false" aria-label="icon" fontIcon="start"></mat-icon>
+          Submit
+        </button>
+        <button type="button" mat-button>
+          <mat-icon aria-hidden="false" aria-label="icon" fontIcon="close"></mat-icon>
+          Cancel
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

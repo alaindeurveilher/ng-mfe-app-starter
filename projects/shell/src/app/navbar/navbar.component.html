@@ -1,6 +1,8 @@
-<nav [style]="{display: 'flex', gap: '0.5rem'}">
+<mat-toolbar [style]="{display: 'flex', gap: '2rem'}" color="primary">
   <span>LOGO</span>
-  <a routerLink="/">Home</a>
-  <a routerLink="/mfe1">MFE1</a>
-  <a routerLink="/mfe2">MFE2</a>
-</nav>
+  <nav [style]="{display: 'flex', gap: '0.5rem'}">
+    <a mat-raised-button routerLink="/">Home (Host)</a>
+    <a mat-raised-button routerLink="/mfe1" color="warn">MFE1</a>
+    <a mat-raised-button routerLink="/mfe2" color="accent">MFE2</a>
+  </nav>
+</mat-toolbar>

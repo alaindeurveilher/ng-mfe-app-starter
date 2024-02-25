@@ -3,15 +3,15 @@
   <app-header />
 
   <div [style]="{display: 'flex', gap: '0.5rem'}">
-    <button type="button" (click)="onFeatureChange('one')">
+    <button mat-raised-button type="button" color="primary" (click)="onFeatureChange('one')">
       @if (displayedFeature() === 'one') {
-      <span>(v)</span>
+      <mat-icon aria-hidden="false" aria-label="icon" fontIcon="check"></mat-icon>
       }
       feat. 1
     </button>
-    <button mat-raised-button type="button" color="accent" (click)="onFeatureChange('two')">
+    <button mat-raised-button type="button" color="warn" (click)="onFeatureChange('two')">
       @if (displayedFeature() === 'two') {
-      <span>(v)</span>
+      <mat-icon aria-hidden="false" aria-label="icon" fontIcon="check"></mat-icon>
       }
       feat. 2
     </button>
