@@ -1,10 +1,17 @@
-<app-navbar />
+<div class="mat-typography">
+  <app-navbar />
 
-<div [style]="{display: 'flex', flexDirection: 'column', padding: '1rem'}">
-  <p>I am part of the MFE2 layout. All components of this MFE are loaded in the dotted section below.</p>
-  <div
-    [style]="{padding: '1rem', borderRadius: '0.25rem', borderWidth: '2px', borderColor: 'rgb(236 72 153)', borderStyle: 'dashed'}">
-    <router-outlet />
+  <div [style]="{display: 'flex', flexDirection: 'column', padding: '1rem'}">
+    <p>I am part of the MFE2 layout. All components of this MFE are loaded in the dotted section below.</p>
+    <mat-slide-toggle>Toggle me!</mat-slide-toggle>
+    <h1 class="mat-headline-5">H1 Title</h1>
+    <h2 class="mat-headline-6">H2 Title</h2>
+    <h3 class="mat-subtitle-1">H3 Title</h3>
+    <h4 class="mat-subtitle-2">H4 Title</h4>
+    <div
+      [style]="{padding: '1rem', borderRadius: '0.25rem', borderWidth: '2px', borderColor: 'rgb(236 72 153)', borderStyle: 'dashed'}">
+      <router-outlet />
+    </div>
+    <p>I am part of the MFE2 layout.</p>
   </div>
-  <p>I am part of the MFE2 layout.</p>
 </div>

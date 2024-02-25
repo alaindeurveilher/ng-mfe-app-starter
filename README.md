@@ -14,7 +14,7 @@ Install the Angular CLI version 17+ globally.
 ## Create the main project
 
 To start creating this project for the first time, execute in the workspace folder of your choice in a Git Bash terminal:
-- `ng new ng-mfe-app-starter --create-application false --package-manager yarn`
+- `ng new ng-mfe-app-starter --create-application false --package-manager yarn --ssr false --style scss`
 - Open the project in VS Code. All the commands in the next chapters are supposed to be executed in a bash terminal of VS Code in the root folder of the application, or specified otherwise.
 - (or `cd ng-mfe-app-starter` in the same bash terminal)
 
@@ -252,3 +252,125 @@ export const routes: Routes = [
   - once the remotes have started, start the shell: `ng serve shell -o`
 
 Now, by clicking at the menu items MFE1 and MFE2 in the navigation, you can load the remote directly into the host.
+
+## Adding Angular Material
+
+Install `@angular/material`:
+
+- `ng add @angular/material@latest`
+
+There is at a moment an issue to configure the projects with Angular Material, and the previous command will output an error message "Project Name is required" after the installation of the package. Ignore the message, it is about the configuration of Material in the project. All micro frontends must be configured manually.
+
+Do this for each single one of them, including the shell:
+
+- Edit the `angular.json` file and __for each__ of the projects, add these 2 lines:
+  - in "architect" > "test" > "options" > "styles": before `styles.scss`, add the theme style to use, for example: `"@angular/material/prebuilt-themes/indigo-pink.css",`
+  - in "architect" > "esbuild" > "options" > "styles": before `styles.scss`, add the theme style to use, for example: `"@angular/material/prebuilt-themes/indigo-pink.css",`
+
+Example for the shell (but it should also be for all the micro frontends):
+
+```json
+{
+  "..."
+  "projects": {
+    "shell": {
+      "..."
+      "architect": {
+        "..."
+        "test": {
+          "..."
+          "options": {
+            "..."
+            "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/shell/src/styles.scss"
+            ],
+            "..."
+          }
+        },
+        "esbuild": {
+          "..."
+          "options": {
+            "..."
+            "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/shell/src/styles.scss"
+            ],
+            "..."
+          }
+        },
+        "..."
+      }
+    },
+    "..."
+  }
+}
+```
+
+
+- Add the following to the top of the `styles.scss` file
+
+```scss
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+```
+
+- Add the 3 fonts from Google (Roboto, Material Icons and Material Symbols) to the `<head>` of the `index.html` file, and configure the typograhy globally by adding `class="mat-typography"` to the `body` element:
+
+```html
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>...</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Add the 3 fonts from Google (Roboto, Material Icons and Material Symbols): -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+
+<!-- configure the typograhy globally by adding the class "mat-typography" to the body element: -->
+<body class="mat-typography">
+  <app-root></app-root>
+</body>
+
+</html>
+```
+
+- edit `app.config.ts` to enable animations:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+// Add this import:
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  // add the provider provideAnimationsAsync to the list:
+  providers: [provideRouter(routes), provideAnimationsAsync()]
+};
+```
+
+- That's it. You can try it out by adding some material elements:
+
+```html
+<mat-slide-toggle>Toggle me!</mat-slide-toggle>
+<mat-icon>home</mat-icon>
+<mat-icon fontSet="material-icons-outlined">home</mat-icon>
+<mat-icon fontSet="material-symbols-outlined" color="accent">favorite</mat-icon>
+```
