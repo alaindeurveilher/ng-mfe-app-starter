@@ -6,6 +6,7 @@ module.exports = withNativeFederation({
 
   exposes: {
     './Component': './projects/mfe2/src/app/app.component.ts',
+    './Module': './projects/mfe2/src/app/main.module.ts',
   },
 
   shared: {
@@ -19,5 +20,5 @@ module.exports = withNativeFederation({
     'rxjs/webSocket',
     // Add further packages you don't need at runtime
   ]
-  
+
 });

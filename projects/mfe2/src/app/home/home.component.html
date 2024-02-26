@@ -1,1 +1,19 @@
-<p>home works!</p>
+<div>
+  <app-navbar />
+
+  <div [style]="{display: 'flex', flexDirection: 'column', padding: '1rem'}">
+    <h1 class="mat-headline-5">I am part of the MFE2 layout</h1>
+    <h2 class="mat-headline-6">All components of this MFE are loaded in the dotted section below</h2>
+    <div [style]="{
+        padding: '1rem',
+        borderRadius: '0.25rem',
+        borderWidth: '2px',
+        borderColor: 'rgb(236 72 153)',
+        borderStyle: 'dashed',
+        marginBottom: '0.5rem'
+      }">
+      <router-outlet />
+    </div>
+    <h4 class="mat-subtitle-2">I am part of the MFE2 layout</h4>
+  </div>
+</div>

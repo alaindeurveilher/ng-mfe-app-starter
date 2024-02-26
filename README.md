@@ -374,3 +374,131 @@ export const appConfig: ApplicationConfig = {
 <mat-icon fontSet="material-icons-outlined">home</mat-icon>
 <mat-icon fontSet="material-symbols-outlined" color="accent">favorite</mat-icon>
 ```
+
+## Add Routing Navigation inside a remote
+
+For this to work, a `@NgModule` needs to be created in the MFE, and be exposed by Native Federation. Then in the shell routes definition load the module instead of the component.
+
+### In the Remote:
+
+- Start by creating a module inside the MFE: `ng g module main --project mfe2 --routing --flat`
+
+This command will create 2 files in __mfe2__ collocated with _app.component.ts_: `main-routing.module.ts` and `main.module.ts`.
+
+Now in the project __mfe2__:
+
+- Add the following routes definition in `main-routing.module.ts`:
+
+```ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { Page1Component } from './page1/page1.component';
+import { Page2Component } from './page2/page2.component';
+
+// Add the following routes:
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    title: 'MFE2',
+    children: [
+      { path: 'page1', component: Page1Component, title: 'MFE2 | Page 1' },
+      { path: 'page2', component: Page2Component, title: 'MFE2 | Page 2' },
+    ],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class MainRoutingModule { }
+```
+
+- Edit `app.routes.ts` to be only for loading the module:
+
+```ts
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  { path: '', loadChildren: () => import('./main.module').then(m => m.MainModule) }
+];
+```
+
+- If the main layout was in `app.component.html`, move it away in another component, and keep in the template file only the router outlet.
+
+- For instance in the _home_ component `home/home.component.html`
+
+```html
+<div>
+  <!-- Your navigation component: -->
+  <app-navbar />
+
+  <!-- ... some other markup part of the layout -->
+  
+  <!-- The Router Outlet to load all the different pages: -->
+  <router-outlet />
+  
+</div>
+```
+- in the _app_ component `app.component.html`, keep only the following:
+
+```html
+<router-outlet />
+```
+
+- Use relative paths in your navigation components. When using relative paths, they will interprated correctly by both the micro frontend server in isolation, and also by the shell loading the MFE.
+
+- So, in the template of the _navbar_ component of mfe2 `navbar/navbar.component.html`:
+
+```html
+<nav [style]="{display: 'flex', gap: '0.5rem'}">
+  <!-- Note here the relative paths, starting with the dot: "./page1"  -->
+  <a mat-button routerLink="./page1">Page 1</a>
+  <a mat-button routerLink="./page2">Page 2</a>
+</nav>
+```
+
+- Expose the created module in `federation.config.js`:
+
+```js
+// ... beginning of the file untouched
+module.exports = withNativeFederation({
+  name: 'mfe2',
+  exposes: {
+    './Component': './projects/mfe2/src/app/app.component.ts',
+    // Add the following line to expose the module:
+    './Module': './projects/mfe2/src/app/main.module.ts',
+  },
+
+  // ... rest of the file untouched
+});
+
+```
+
+- Tests: run mfe2 in isolation `http://localhost:4202/`, and navigate inside the app:
+  - `http://localhost:4202/page1` and `http://localhost:4202/page2` display their corresponding components
+
+### In the Shell:
+
+Now in the shell edit and update `app.routes.ts` in order to load the module of mfe2 instead of the main component:
+
+```ts
+export const routes: Routes = [
+  { path: '', component: HomeComponent, pathMatch: 'full', title: 'Shell' },
+  { path: 'mfe1', loadComponent: () => loadRemoteModule('mfe1', './Component').then((m) => m.AppComponent), title: 'MFE 1' },
+  // Update for mfe2: use loadChildren instead of loadComponent, and load the './Module' and m.MainModule instead of the ./Component:
+  { path: 'mfe2', loadChildren: () => loadRemoteModule('mfe2', './Module').then((m) => m.MainModule), title: 'MFE 2' },
+  { path: '**', component: NotFoundComponent, title: 'Page Not Found' },
+  // DO NOT insert routes after this one.
+  // { path:'**', ...} needs to be the LAST one.
+];
+```
+
+That's it. now the navigation works also in the shell
+
+- Tests: run everything, and open the shell `http://localhost:4200/`, and navigate inside the shell:
+  - `http://localhost:4200/mfe2` loads the mfe2 module
+  - navigate inside the MFE2:
+    - `http://localhost:4200/mfe2/page1` and `http://localhost:4200/mfe2/page2` display their corresponding components
