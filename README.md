@@ -5,6 +5,10 @@ It uses [Native Federation](https://github.com/angular-architects/module-federat
 
 The following explained how this project boiler plate was setup.
 
+## Demo
+
+![Demo](ng-mfe-starter-demo.gif)
+
 ## Pre-requisites
 
 Install Node.js LTS v20+, `enable corepack` in Node.js to enable __yarn__ and __pnpm__.
